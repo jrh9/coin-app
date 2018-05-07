@@ -45,13 +45,22 @@ class List extends React.Component {
     }
 
     render() {
-        const {loading, error, currencies } = this.state;
-        if (loading) {
+        /**
+         * Same as
+         * const loading = this.state.loading;
+         * const error = this.state.error;
+         * const currencies = this.state.currencies;
+         */
+
+        
+        // Render only loading componenet if loading state is true
+        if (this.state.loading) {
             return <div className="loading-container"><Loading /></div>
         }
 
-        if (error) {
-            return <div className="error">{error}</div>
+        // Render only error message if error occurred while fetching data
+        if (this.state.error) {
+            return <div className="error">{this.state.error}</div>
         }
 
         return (
