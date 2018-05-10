@@ -16,9 +16,15 @@ class List extends React.Component {
             totalPages: 0,
             page: 1
         };
+
+        this.handlePaginationClick = this.handlePaginationClick.bind(this);
     }
 
     componentDidMount() {
+        this.fetchCurrencies();
+    }
+
+    fetchCurrencies() {
         this.setState({ loading: true});
 
         const { page } = this.state;
@@ -39,6 +45,33 @@ class List extends React.Component {
                 loading: false
             });
         });
+    }
+
+    /*
+        JS class methods are not bound by default
+        If not explicitly bounded, "this" will be undefined 
+        Class fields to modify callbacks (popular, but experimental):
+        handlePaginationClick = (direction) => {
+    */
+    handlePaginationClick(direction) {
+        let nextPage = this.state.page;
+        //Increment nextPage if direction var is next, otherwise decrement 
+        nextPage = direction === 'next' ? nextPage + 1 : nextPage - 1;
+        
+        this.setState({ page: nextPage }, () => {
+        /*
+        this.setState({ page: nextPage });
+        this.fetchCurrencies();
+
+        Page gets updated before state gets set (page 2 will show page 1 results)
+        AJAX call is async, so we need to send request only after state gets updated
+        setState takes a CALLBACK as second argument
+        Therefore, call fetchCurrencis() inside setState's callback
+        to make sure first page state is updated before making ajax call
+         */ 
+            this.fetchCurrencies();
+        });
+
     }
 
     renderChangePercent(percent) {
@@ -80,6 +113,7 @@ class List extends React.Component {
             <Pagination 
                 page={page}
                 totalPages={totalPages}
+                handlePaginationClick = {this.handlePaginationClick}
             />
             </div>    
         );
