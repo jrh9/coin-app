@@ -8,6 +8,7 @@ const Pagination = (props) => {
             <button 
                 className="Pagination-button"
                 onClick={() => handlePaginationClick('prev')} // Equivalent to onclick below
+                disabled={page <= 1}
             >
                 &larr;
             </button>
@@ -19,6 +20,7 @@ const Pagination = (props) => {
             <button 
                 className="Pagination-button"
                 onClick={handlePaginationClick.bind(this,'next')} // Equivalent to onclick above
+                disabled={page >= totalPages}
             >
                 &rarr;
             </button>
